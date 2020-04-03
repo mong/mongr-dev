@@ -9,4 +9,4 @@ docker build -t hnskde/mongr-dev .
 or simply use the image at dockerhub
 
 ## Use
-Info coming
+Info coming... Until then, see for instance [how it is used in the imongr project](https://github.com/mong/imongr/blob/master/docker-compose.yml).
