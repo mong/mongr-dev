@@ -47,6 +47,8 @@ ARG IMONGR_DB_USER=imongr
 ENV IMONGR_DB_USER=${IMONGR_DB_USER}
 ARG IMONGR_DB_PASS=imongr
 ENV IMONGR_DB_PASS=${IMONGR_DB_PASS}
+ARG IMONGR_ADMINER_URL=http://localhost:8888
+ENV IMONGR_ADMINER_URL=${IMONGR_ADMINER_URL}
 
 RUN touch /home/rstudio/.Renviron
 RUN echo "TZ=${TZ}" > /home/rstudio/.Renviron
@@ -57,6 +59,7 @@ RUN echo "IMONGR_DB_HOST=${IMONGR_DB_HOST}" >> /home/rstudio/.Renviron
 RUN echo "IMONGR_DB_NAME=${IMONGR_DB_NAME}" >> /home/rstudio/.Renviron
 RUN echo "IMONGR_DB_USER=${IMONGR_DB_USER}" >> /home/rstudio/.Renviron
 RUN echo "IMONGR_DB_PASS=${IMONGR_DB_PASS}" >> /home/rstudio/.Renviron
+RUN echo "IMONGR_ADMINER_URL=${IMONGR_ADMINER_URL}" >> /home/rstudio/.Renviron
 
 
 # add rstudio user to root group  and optionally enable shiny server
