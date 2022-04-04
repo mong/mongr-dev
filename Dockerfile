@@ -3,7 +3,8 @@ FROM rocker/verse:4.1.2
 ENV DEBIAN_FRONTEND noninteractive
 
 # debian extras
-RUN apt-get update && apt-get install -yq \
+# hadolint ignore=DL3008
+RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
     mariadb-client \
     netcat-openbsd \
