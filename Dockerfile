@@ -61,6 +61,10 @@ ARG IMONGR_DB_PASS=imongr
 ENV IMONGR_DB_PASS=${IMONGR_DB_PASS}
 ARG IMONGR_ADMINER_URL=http://localhost:8888
 ENV IMONGR_ADMINER_URL=${IMONGR_ADMINER_URL}
+ARG SHINYPROXY_USERNAME=imongr@mongr.no
+ENV SHINYPROXY_USERNAME=${SHINYPROXY_USERNAME}
+ARG SHINYPROXY_USERGROUPS=MANAGER,PROVIDER
+ENV SHINYPROXY_USERGROUPS=${SHINYPROXY_USERGROUPS}
 
 RUN touch /home/rstudio/.Renviron \
     && echo "TZ=${TZ}" > /home/rstudio/.Renviron \
@@ -73,7 +77,9 @@ RUN touch /home/rstudio/.Renviron \
     && echo "IMONGR_DB_NAME=${IMONGR_DB_NAME}" >> /home/rstudio/.Renviron \
     && echo "IMONGR_DB_USER=${IMONGR_DB_USER}" >> /home/rstudio/.Renviron \
     && echo "IMONGR_DB_PASS=${IMONGR_DB_PASS}" >> /home/rstudio/.Renviron \
-    && echo "IMONGR_ADMINER_URL=${IMONGR_ADMINER_URL}" >> /home/rstudio/.Renviron 
+    && echo "IMONGR_ADMINER_URL=${IMONGR_ADMINER_URL}" >> /home/rstudio/.Renviron \
+    && echo "SHINYPROXY_USERNAME=${SHINYPROXY_USERNAME}" >> /home/rstudio/.Renviron \
+    && echo "SHINYPROXY_USERGROUPS=${SHINYPROXY_USERGROUPS}" >> /home/rstudio/.Renviron 
 
 
 # add rstudio user to root group
