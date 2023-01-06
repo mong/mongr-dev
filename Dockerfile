@@ -88,4 +88,6 @@ ENV ROOT=TRUE
 RUN --mount=type=secret,id=github_token \
   cat /run/secrets/github_token
 
+ENV GITHUB_PAT=${github_token}
+
 RUN R -e "remotes::install_github('mong/imongr')"
