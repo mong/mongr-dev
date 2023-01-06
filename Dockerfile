@@ -1,5 +1,8 @@
 FROM rocker/verse:4.2.2
 
+ARG GH_PAT
+ENV GITHUB_PAT=${GH_PAT}
+
 ENV DEBIAN_FRONTEND noninteractive
 
 # debian extras
