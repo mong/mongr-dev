@@ -1,5 +1,8 @@
 FROM rocker/verse:4.2.2
 
+ARG GH_PAT
+ENV GITHUB_PAT=${GH_PAT}
+
 ENV DEBIAN_FRONTEND noninteractive
 
 # debian extras
@@ -84,10 +87,5 @@ RUN touch /home/rstudio/.Renviron \
 
 # add rstudio user to root group
 ENV ROOT=TRUE
-
-RUN --mount=type=secret,id=github_token \
-  cat /run/secrets/github_token
-
-ENV GITHUB_PAT=${github_token}
 
 RUN R -e "remotes::install_github('mong/imongr')"
