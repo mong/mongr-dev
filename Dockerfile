@@ -85,4 +85,7 @@ RUN touch /home/rstudio/.Renviron \
 # add rstudio user to root group
 ENV ROOT=TRUE
 
+RUN --mount=type=secret,id=github_token \
+  cat /run/secrets/github_token
+
 RUN R -e "remotes::install_github('mong/imongr')"
