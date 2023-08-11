@@ -1,4 +1,4 @@
-FROM rocker/verse:4.2.3
+FROM rocker/verse:4.3.1
 
 ARG GH_PAT
 ENV GITHUB_PAT=${GH_PAT}
