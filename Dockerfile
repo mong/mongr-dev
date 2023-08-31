@@ -88,4 +88,5 @@ RUN touch /home/rstudio/.Renviron \
 # add rstudio user to root group
 ENV ROOT=TRUE
 
-RUN R -e "remotes::install_github('mong/imongr')"
+RUN R -e "install.packages(c('lintr'))" \
+    && R -e "remotes::install_github('mong/imongr')"
