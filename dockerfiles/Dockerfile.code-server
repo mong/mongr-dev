@@ -37,60 +37,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 USER 1000
+
 # Set norsk bokmaal as default system locale
 ENV LC_ALL=nb_NO.UTF-8
 ENV LANG=nb_NO.UTF-8
-#RUN sed -i 's/^# *\(nb_NO.UTF-8\)/\1/' /etc/locale.gen \
-#    && locale-gen \
-#    && echo "LANG=\"nb_NO.UTF-8\"" > /etc/default/locale \
-#    && update-locale LANG=nb_NO.utf8
 
-# making env vars go all the way into Rstudio console, based on
-# https://github.com/rocker-org/rocker-versioned/issues/91
-ARG TZ=Europe/Oslo
-ENV TZ=${TZ}
-ARG PROXY=
-ENV http_proxy=${PROXY}
-ENV https_proxy=${PROXY}
-ARG INSTANCE=DEV
-ENV IMONGR_CONTEXT=${INSTANCE}
-ARG IMONGR_DB_HOST=db
-ENV IMONGR_DB_HOST=${IMONGR_DB_HOST}
-ARG IMONGR_DB_HOST_VERIFY=db-verify
-ENV IMONGR_DB_HOST_VERIFY=${IMONGR_DB_HOST_VERIFY}
-ARG IMONGR_DB_HOST_QA=db-qa
-ENV IMONGR_DB_HOST_QA=${IMONGR_DB_HOST_QA}
-ARG IMONGR_DB_NAME=imongr
-ENV IMONGR_DB_NAME=${IMONGR_DB_NAME}
-ARG IMONGR_DB_USER=imongr
-ENV IMONGR_DB_USER=${IMONGR_DB_USER}
-ARG IMONGR_DB_PASS=imongr
-ENV IMONGR_DB_PASS=${IMONGR_DB_PASS}
-ARG IMONGR_ADMINER_URL=http://localhost:8888
-ENV IMONGR_ADMINER_URL=${IMONGR_ADMINER_URL}
-ARG SHINYPROXY_USERNAME=imongr@mongr.no
-ENV SHINYPROXY_USERNAME=${SHINYPROXY_USERNAME}
-ARG SHINYPROXY_USERGROUPS=MANAGER,PROVIDER
-ENV SHINYPROXY_USERGROUPS=${SHINYPROXY_USERGROUPS}
-ARG R_LIBS_USER=/home/coder/R/library
-ENV R_LIBS_USER=${R_LIBS_USER}
+COPY config/.Renviron /home/coder/.Renviron
 
-RUN touch /home/coder/.Renviron \
-    && echo "TZ=${TZ}" > /home/coder/.Renviron \
-    && echo "http_proxy=${PROXY}" >> /home/coder/.Renviron \
-    && echo "https_proxy=${PROXY}" >> /home/coder/.Renviron \
-    && echo "IMONGR_CONTEXT=${IMONGR_CONTEXT}" >> /home/coder/.Renviron \
-    && echo "IMONGR_DB_HOST=${IMONGR_DB_HOST}" >> /home/coder/.Renviron \
-    && echo "IMONGR_DB_HOST_VERIFY=${IMONGR_DB_HOST_VERIFY}" >> /home/coder/.Renviron \
-    && echo "IMONGR_DB_HOST_QA=${IMONGR_DB_HOST_QA}" >> /home/coder/.Renviron \
-    && echo "IMONGR_DB_NAME=${IMONGR_DB_NAME}" >> /home/coder/.Renviron \
-    && echo "IMONGR_DB_USER=${IMONGR_DB_USER}" >> /home/coder/.Renviron \
-    && echo "IMONGR_DB_PASS=${IMONGR_DB_PASS}" >> /home/coder/.Renviron \
-    && echo "IMONGR_ADMINER_URL=${IMONGR_ADMINER_URL}" >> /home/coder/.Renviron \
-    && echo "SHINYPROXY_USERNAME=${SHINYPROXY_USERNAME}" >> /home/coder/.Renviron \
-    && echo "SHINYPROXY_USERGROUPS=${SHINYPROXY_USERGROUPS}" >> /home/coder/.Renviron \
-    && echo "R_LIBS_USER=${R_LIBS_USER}" >> /home/coder/.Renviron \
-    && mkdir -p /home/coder/R/library \
+RUN mkdir -p /home/coder/R/library \
     && R -e "install.packages(c('remotes', 'devtools', 'languageserver', 'jsonlite'), lib = '/home/coder/R/library')" \
     && R -e "remotes::install_github('mong/imongr', lib = '/home/coder/R/library')" \
     && code-server --install-extension reditorsupport.r --install-extension mechatroner.rainbow-csv
