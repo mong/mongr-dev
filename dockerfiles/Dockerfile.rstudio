@@ -46,5 +46,6 @@ COPY config/.Renviron /home/rstudio/.Renviron
 # add rstudio user to root group
 ENV ROOT=TRUE
 
-RUN R -e "install.packages(c('lintr'))" \
-    && R -e "remotes::install_github('mong/imongr')"
+RUN mkdir -p /home/rstudio/R/library \
+    && R -e "install.packages(c('lintr'), lib = '/home/rstudio/R/library')" \
+    && R -e "remotes::install_github('mong/imongr', lib = '/home/rstudio/R/library')"
