@@ -11,20 +11,26 @@ on:
 
 jobs:
   push_to_registries:
-    name: Push Docker image to docker hub
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {name: rstudio}
+          - {name: code-server}
+    name: Build and push Docker image mongr-dev-${{ matrix.config.name }} to docker hub
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3.6.0
-      - name: Lint Dockerfile code-server
+      - name: Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: "dockerfiles/Dockerfile.code-server"
-      - name: Prepare code-server
-        id: docker_meta_code-server
+          dockerfile: "dockerfiles/Dockerfile.${{ matrix.config.name }}"
+      - name: Prepare tags
+        id: docker_meta
         uses: docker/metadata-action@v4.6.0
         with:
-          images: hnskde/mongr-dev-code-server
+          images: hnskde/mongr-dev-${{ matrix.config.name }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -38,12 +44,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push code-server to Docker Hub
+      - name: Build and push to Docker Hub
         uses: docker/build-push-action@v4.1.1
         with:
           context: .
-          file: ./dockerfiles/Dockerfile.code-server
+          file: ./dockerfiles/Dockerfile.${{ matrix.config.name }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.docker_meta_code-server.outputs.tags }}
-          labels: ${{ steps.docker_meta_code-server.outputs.labels }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
           build-args: GH_PAT=${{ secrets.GITHUB_TOKEN }}
