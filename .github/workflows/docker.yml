@@ -18,7 +18,7 @@ jobs:
         config:
           - {name: rstudio}
           - {name: code-server}
-    name: Build and push Docker image mongr-dev-${{ matrix.config.name }} to docker hub
+    name: Image mongr-dev-${{ matrix.config.name }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3.6.0
