@@ -45,6 +45,7 @@ ENV LANG=nb_NO.UTF-8
 COPY config/.Renviron /home/coder/.Renviron
 
 RUN mkdir -p /home/coder/R/library \
+    && echo "R_LIBS_USER=/home/coder/R/library" >> /home/rstudio/.Renviron \
     && R -e "install.packages(c('remotes', 'devtools', 'languageserver', 'jsonlite'), lib = '/home/coder/R/library')" \
     && R -e "remotes::install_github('mong/imongr', lib = '/home/coder/R/library')" \
     && code-server --install-extension reditorsupport.r --install-extension mechatroner.rainbow-csv
