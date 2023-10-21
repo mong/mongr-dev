@@ -1,4 +1,4 @@
-FROM codercom/code-server:4.16.1
+FROM codercom/code-server:4.18.0
 
 ARG GH_PAT
 ENV GITHUB_PAT=${GH_PAT}
