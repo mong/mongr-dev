@@ -21,7 +21,7 @@ jobs:
     name: Image mongr-dev-${{ matrix.config.name }}
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v3.6.0
+        uses: actions/checkout@v4.1.1
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
