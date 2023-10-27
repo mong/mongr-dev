@@ -42,8 +42,6 @@ USER 1000
 ENV LC_ALL=nb_NO.UTF-8
 ENV LANG=nb_NO.UTF-8
 
-COPY config/.Renviron /home/coder/.Renviron
-
 RUN mkdir -p /home/coder/R/library \
     && R -e "install.packages(c('remotes', 'devtools', 'languageserver', 'jsonlite'), lib = '/home/coder/R/library')" \
     && R -e "remotes::install_github('mong/imongr', lib = '/home/coder/R/library')" \
