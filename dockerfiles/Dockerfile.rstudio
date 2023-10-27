@@ -45,4 +45,4 @@ RUN sed -i 's/^# *\(nb_NO.UTF-8\)/\1/' /etc/locale.gen \
 ENV ROOT=TRUE
 
 RUN R -e "install.packages(c('lintr'))" \
-    && R -e "remotes::install_github('mong/imongr')"
+    && R -e "remotes::install_github(c('mong/imongr', 'mong/tmongr'))"
