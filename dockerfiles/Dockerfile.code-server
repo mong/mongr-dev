@@ -41,10 +41,9 @@ USER 1000
 # Set norsk bokmaal as default system locale
 ENV LC_ALL=nb_NO.UTF-8
 ENV LANG=nb_NO.UTF-8
+ENV R_LIBS_USER=/home/coder/R/library
 
-COPY config/.Renviron /home/coder/.Renviron
-
-RUN mkdir -p /home/coder/R/library \
-    && R -e "install.packages(c('remotes', 'devtools', 'languageserver', 'jsonlite'), lib = '/home/coder/R/library')" \
-    && R -e "remotes::install_github('mong/imongr', lib = '/home/coder/R/library')" \
+RUN mkdir -p ${R_LIBS_USER} \
+    && R -e "install.packages(c('devtools', 'languageserver', 'jsonlite'), lib = Sys.getenv('R_LIBS_USER'), repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/bullseye/latest'))" \
+    && R -e "devtools::install_github(c('mong/imongr', 'mong/tmongr'), lib = '/home/coder/R/library')" \
     && code-server --install-extension reditorsupport.r --install-extension mechatroner.rainbow-csv
