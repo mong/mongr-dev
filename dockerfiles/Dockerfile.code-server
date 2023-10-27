@@ -44,6 +44,6 @@ ENV LANG=nb_NO.UTF-8
 ENV R_LIBS_USER=/home/coder/R/library
 
 RUN mkdir -p ${R_LIBS_USER} \
-    && R -e "install.packages(c('devtools', 'languageserver', 'jsonlite'), lib = Sys.getenv('R_LIBS_USER'), repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest'))" \
+    && R -e "install.packages(c('devtools', 'languageserver', 'jsonlite'), lib = Sys.getenv('R_LIBS_USER'), repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/bullseye/latest'))" \
     && R -e "devtools::install_github(c('mong/imongr', 'mong/tmongr'), lib = Sys.getenv('R_LIBS_USER'))" \
     && code-server --install-extension reditorsupport.r --install-extension mechatroner.rainbow-csv
