@@ -1,5 +1,7 @@
 FROM codercom/code-server:4.18.0
 
+WORKDIR /home/coder
+
 ARG GH_PAT
 ENV GITHUB_PAT=${GH_PAT}
 
@@ -47,3 +49,5 @@ RUN mkdir -p ${R_LIBS_USER} \
     && R -e "install.packages(c('devtools', 'languageserver', 'jsonlite'), lib = Sys.getenv('R_LIBS_USER'), repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/bullseye/latest'))" \
     && R -e "devtools::install_github(c('mong/imongr', 'mong/tmongr'), lib = '/home/coder/R/library')" \
     && code-server --install-extension reditorsupport.r --install-extension mechatroner.rainbow-csv
+
+COPY .config/code-server-settings.json ./.local/share/code-server/User/settings.json
