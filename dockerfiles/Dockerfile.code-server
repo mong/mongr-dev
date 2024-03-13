@@ -2,9 +2,6 @@ FROM codercom/code-server:4.22.0
 
 WORKDIR /home/coder
 
-ARG GH_PAT
-ENV GITHUB_PAT=${GH_PAT}
-
 USER root
 # debian extras
 # hadolint ignore=DL3008
