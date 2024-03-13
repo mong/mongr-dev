@@ -32,7 +32,7 @@ jobs:
           dockerfile: "dockerfiles/Dockerfile.${{ matrix.config.name }}"
       - name: Prepare tags
         id: docker_meta
-        uses: docker/metadata-action@v5.0.0
+        uses: docker/metadata-action@v5.5.1
         with:
           images: hnskde/mongr-dev-${{ matrix.config.name }}
           tags: |
