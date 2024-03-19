@@ -1,4 +1,4 @@
-FROM codercom/code-server:4.22.0
+FROM codercom/code-server:4.22.1
 
 WORKDIR /home/coder
 
@@ -46,4 +46,4 @@ RUN mkdir -p ${R_LIBS_USER} \
     && R -e "devtools::install_github(c('mong/imongr', 'mong/tmongr'), lib = '/home/coder/R/library')" \
     && code-server --install-extension reditorsupport.r --install-extension mechatroner.rainbow-csv
 
-COPY .config/code-server-settings.json ./.local/share/code-server/User/settings.json
+COPY settings.json ./.local/share/code-server/User/settings.json
