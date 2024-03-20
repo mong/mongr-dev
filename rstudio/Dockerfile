@@ -43,3 +43,5 @@ ENV ROOT=TRUE
 
 RUN R -e "install.packages(c('lintr'))" \
     && R -e "remotes::install_github(c('mong/imongr', 'mong/tmongr'))"
+
+COPY rstudio-prefs.json /home/rstudio/.config/rstudio/rstudio-prefs.json
