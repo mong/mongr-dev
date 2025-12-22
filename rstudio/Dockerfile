@@ -1,4 +1,4 @@
-FROM rocker/r-ver:4.5.2
+FROM rocker/verse:4.5.2
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -40,8 +40,7 @@ RUN sed -i 's/^# *\(nb_NO.UTF-8\)/\1/' /etc/locale.gen \
 # add rstudio user to root group
 ENV ROOT=TRUE
 
-RUN install2.r --error --skipinstalled --ncpus -1 \
-    remotes \
+RUN R -e "install.packages(c('remotes', 'lifecycle', 'testthat', 'lintr'), repos='https://cloud.r-project.org/')" \
     && R -e "remotes::install_github(c('mong/imongr'))"
 
 COPY rstudio-prefs.json /home/rstudio/.config/rstudio/rstudio-prefs.json
