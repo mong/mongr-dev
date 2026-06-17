@@ -21,6 +21,7 @@ jobs:
       matrix:
         config:
           - {name: rstudio}
+          - {name: code-server}
     name: Image mongr-dev-${{ matrix.config.name }}
     steps:
       - name: Check out the repo
