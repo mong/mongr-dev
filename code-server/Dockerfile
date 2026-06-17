@@ -43,8 +43,8 @@ ENV LANG=nb_NO.UTF-8
 ENV R_LIBS_USER=/home/coder/R/library
 
 RUN mkdir -p ${R_LIBS_USER} \
-    && R -e "install.packages(c('devtools', 'languageserver', 'jsonlite'), lib = Sys.getenv('R_LIBS_USER'), repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/bullseye/latest'))" \
-    && R -e "devtools::install_github(c('mong/imongr', 'mong/tmongr'), lib = '/home/coder/R/library')" \
+    && R -e "install.packages(c('devtools', 'remotes', 'languageserver', 'jsonlite'), lib = Sys.getenv('R_LIBS_USER'), repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/bullseye/latest'))" \
+    && R -e "remotes::install_github(c('mong/imongr'), lib = '/home/coder/R/library')" \
     && code-server --install-extension reditorsupport.r --install-extension mechatroner.rainbow-csv
 
 COPY settings.json ./.local/share/code-server/User/settings.json
