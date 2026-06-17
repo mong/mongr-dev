@@ -1,6 +1,6 @@
-FROM rocker/verse:4.4.1
+FROM rocker/verse:4.6.0
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # debian extras
 # hadolint ignore=DL3008
@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
     sudo \
     pandoc \
-    pandoc-citeproc \
     libcurl3-gnutls \
     libcurl4-gnutls-dev \
     libcairo2-dev \
@@ -41,7 +40,7 @@ RUN sed -i 's/^# *\(nb_NO.UTF-8\)/\1/' /etc/locale.gen \
 # add rstudio user to root group
 ENV ROOT=TRUE
 
-RUN R -e "install.packages(c('lintr'))" \
-    && R -e "remotes::install_github(c('mong/imongr', 'mong/tmongr'))"
+RUN R -e "install.packages(c('remotes', 'lifecycle', 'testthat', 'lintr'), repos='https://cloud.r-project.org/')" \
+    && R -e "remotes::install_github(c('mong/imongr'))"
 
 COPY rstudio-prefs.json /home/rstudio/.config/rstudio/rstudio-prefs.json
