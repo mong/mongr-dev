@@ -1,4 +1,4 @@
-FROM codercom/code-server:4.124.2
+FROM codercom/code-server:4.126.0
 
 WORKDIR /home/coder
 
