@@ -61,5 +61,5 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
           secrets: "gh_pat=${{ github.token }}"
-          cache-from: type=gha
+          cache-from: ${{ github.event_name != 'schedule' && 'type=gha' || '' }} # not used for scheduled builds
           cache-to: type=gha,mode=max
