@@ -2,7 +2,7 @@ FROM codercom/code-server:4.124.2
 
 WORKDIR /home/coder
 
-USER root
+USER 0
 # debian extras
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
