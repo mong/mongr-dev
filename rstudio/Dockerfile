@@ -6,27 +6,22 @@ ENV DEBIAN_FRONTEND=noninteractive
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
-    mariadb-client \
+    locales \
+    locales-all \
+    default-mysql-client \
     netcat-openbsd \
+    openssh-client \
     tzdata \
+    libgit2-dev \
     sudo \
-    pandoc \
-    libcurl3-gnutls \
     libcurl4-gnutls-dev \
     libcairo2-dev \
     libxt-dev \
-    libxml2-dev \
     libssl-dev \
     libmariadb-dev \
-    texlive-base \
-    texlive-binaries \
-    texlive-pictures \
-    texlive-latex-base \
-    texlive-latex-recommended \
-    texlive-latex-extra \
-    lmodern \
-    locales \
-    locales-all \
+    libmariadb-dev-compat \
+    libharfbuzz-dev \
+    libfribidi-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set norsk bokmaal as default system locale
@@ -40,7 +35,8 @@ RUN sed -i 's/^# *\(nb_NO.UTF-8\)/\1/' /etc/locale.gen \
 # add rstudio user to root group
 ENV ROOT=TRUE
 
-RUN R -e "install.packages(c('remotes', 'lifecycle', 'testthat', 'lintr'), repos='https://cloud.r-project.org/')" \
-    && R -e "remotes::install_github(c('mong/imongr'))"
+RUN --mount=type=secret,id=gh_pat,env=GH_TOKEN \
+    R -e "install.packages(c('remotes', 'lifecycle', 'testthat', 'lintr'), repos='https://cloud.r-project.org/')" \
+    && R -e "remotes::install_github(c('mong/imongr'), auth_token = if (nzchar(Sys.getenv('GH_TOKEN'))) Sys.getenv('GH_TOKEN') else NULL)"
 
 COPY rstudio-prefs.json /home/rstudio/.config/rstudio/rstudio-prefs.json
